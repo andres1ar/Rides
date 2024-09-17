@@ -19,11 +19,16 @@ class VehicleViewModel(
     private val _vehicle = MutableLiveData<VehicleItem>()
     val vehicle: LiveData<VehicleItem> get() = _vehicle
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> get() = _isLoading
+
 
     fun getVehicleList(amount: Int) {
         viewModelScope.launch {
+            _isLoading.value = true
             val result = repository.getVehicles(amount)
             result.let {
+                _isLoading.value = false
                 _vehicleList.value = it
             }
         }
@@ -31,10 +36,23 @@ class VehicleViewModel(
 
     fun getRandomVehicle() {
         viewModelScope.launch {
+            _isLoading.value = true
             val result = repository.getRandomVehicle()
             result.let {
+                _isLoading.value = false
                 _vehicle.value = it
             }
+        }
+    }
+
+    fun isValidNumber(value: Int): Boolean = value in 1..100
+
+    fun calculateCarbonEmission(value: Int): Double {
+        if (value <= 5000) {
+            return value.toDouble()
+        } else {
+            val remaining = value - 5000
+            return 5000.0 + (remaining * 1.5)
         }
     }
 }

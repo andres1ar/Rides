@@ -25,5 +25,16 @@
         <argument
             android:name="vehicle"
             app:argType="ca.andresalderete.rides.models.VehicleItem" />
+        <action
+            android:id="@+id/action_detailFragment_to_carbonEmissionBottomSheet"
+            app:destination="@id/carbonEmissionBottomSheet" />
     </fragment>
+    <dialog
+        android:id="@+id/carbonEmissionBottomSheet"
+        android:name="ca.andresalderete.rides.ui.fragments.CarbonEmissionBottomSheet"
+        android:label="CarbonEmissionBottomSheet" >
+        <argument
+            android:name="kilometrage"
+            app:argType="integer" />
+    </dialog>
 </navigation>
